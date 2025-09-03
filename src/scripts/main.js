@@ -87,11 +87,6 @@ filterList.forEach((el) => {
   if (value === 'office') {
     input = document.createElement('select');
 
-    const placeholderOption = new Option('Select office...', true, true);
-
-    placeholderOption.disabled = true;
-    input.appendChild(placeholderOption);
-
     filterPositions.forEach((position) => {
       const optionValue = new Option(
         transformToName(position.toString()),
@@ -121,12 +116,13 @@ tContent.addEventListener('click', (e) => {
     return;
   }
 
-  if (activeElement) {
-    activeElement.classList.remove('active');
-  } else {
-    activeElement = row;
-    activeElement.classList.add('active');
-  }
+  // Remove 'active' class from all rows
+  tContent.querySelectorAll('tr').forEach((el) => {
+    el.classList.remove('active');
+  });
+
+  // Add 'active' class to the clicked row
+  row.classList.add('active');
 });
 
 sortedRows.forEach((el, index) => {
@@ -300,7 +296,7 @@ form.addEventListener('submit', (e) => {
     newRow.appendChild(tableData);
   });
 
-  allPosts.appendChild(newRow);
+  tContent.appendChild(newRow);
 
   showNotification(
     'Employee added successfully',
